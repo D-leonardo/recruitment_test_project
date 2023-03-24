@@ -4,13 +4,15 @@ import { HomeComponent } from './home/home.component';
 import { LandingComponent } from './landing/landing.component';
 import { CommonComponentModule } from '../common-component/common-component.module';
 import { GoogleMapsModule } from '@angular/google-maps';
+import { FileNotFoundComponent } from './file-not-found/file-not-found.component';
 
 
 
 @NgModule({
   declarations: [
     HomeComponent,
-    LandingComponent
+    LandingComponent,
+    FileNotFoundComponent
   ],
   imports: [
     CommonModule,
