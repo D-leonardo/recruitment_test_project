@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UserResource extends JsonResource
+class MyPositionResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -15,12 +15,16 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'position' => $this->position,            
+            'available' => $this->available,
+            'longitude' => $this->longitude,
+            'latitude' => $this->latitude,
+            'country' => $this->country,
+            'city' => $this->city,
+            'region' => $this->region,
+            'user_id' => $this->user_id,     
+            'user_name' => $this->user->name,     
             'created_at' => Carbon::parse($this->created_at,'UTC')->locale('fr')->isoFormat('LLLL'),
             'updated_at' => Carbon::parse($this->updated_at ,'UTC')->locale('fr')->isoFormat('LLLL'),
         ];

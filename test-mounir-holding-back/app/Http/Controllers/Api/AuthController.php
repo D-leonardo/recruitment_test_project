@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\MyPosition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
@@ -28,10 +30,20 @@ class AuthController extends Controller
         // Create User callin User Model Class
         $user = User::create($data);
 
+        $myPosition = MyPosition::create([
+            'available'=>false,
+            'longitude'=>'XXX',
+            'latitude'=>'XXX',
+            'country'=>'XXX',
+            'region'=>'XXX',
+            'city'=>'XXX',
+            'user_id'=>$user->id,
+        ]);
+
         // returning Response 
         return response(
             [ 
-                'user' => $user, 
+                'user' => new UserResource($user), 
                 'message' => 'User Registered Successfully !!!'
             ]
         );
@@ -64,7 +76,7 @@ class AuthController extends Controller
         // Returning Response
         return response(
             [
-                'user' => auth()->user(),
+                'user' => new UserResource($user), 
                 'message' => 'User Logged In Succesfully',
                 'token_type'=>'Bearer',
                 'access_token' => $token->accessToken,

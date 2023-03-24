@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\MyPositionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +34,4 @@ Route::post('/logout',[AuthController::class,'logout'])->middleware('auth:api');
 
 // Users resource Route
 Route::apiResource('/users', UserController::class)->middleware(['auth:api']); // 'scopes:view-dashboard'
+Route::apiResource('/positions', MyPositionController::class)->middleware(['auth:api']); // 'scopes:view-dashboard'

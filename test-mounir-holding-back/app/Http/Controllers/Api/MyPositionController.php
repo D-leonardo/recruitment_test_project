@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
-use App\Models\User;
 use App\Models\MyPosition;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserResource;
-use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\MyPositionResource;
 
-
-class UserController extends Controller
+class MyPositionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,11 +17,12 @@ class UserController extends Controller
      */
     public function index()
     {
+        
         return response([ 
             'statusCode' => 200,
             'timeStamp' => Carbon::now()->toDateTimeString(),
             'status'=>"OK", 
-            'data' => ['users'=> UserResource::collection(User::all())], 
+            'data' => ['positions'=> MyPositionResource::collection(MyPosition::all())], 
             'message' => 'Fetched Successful'], 200
         );
     }
@@ -47,55 +45,43 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-
+        
         $data = $request->all();
         
         
         $validator = Validator::make($data, [
-            'email' => 'required|max:50',
-            'name' => 'required',
-            'created_at' => '',
-            'updated_at' => '',
+            'latitude' => 'max:50',
+            'longitude' => 'max:50',
         ]);
         
         if($validator->fails()){
             return response(['error' => $validator->errors(), 'Validation Error']);
         }
-        $data['password'] = $request->password = bcrypt('motdepasse');
         
-        $user = User::create($data);
-
-        $myPosition = MyPosition::create([
-            'available'=>false,
-            'longitude'=>'XXX',
-            'latitude'=>'XXX',
-            'country'=>'XXX',
-            'region'=>'XXX',
-            'city'=>'XXX',
-            'user_id'=>$user->id,
-        ]);
+        $myPosition = MyPosition::create($data);
 
         return response([ 
             'statusCode' => 200,
             'timeStamp' => Carbon::now()->toDateTimeString(),
             'status'=>"OK", 
-            'data' => ['user'=> new UserResource($user)], 
+            'employee' => new MyPositionResource($myPosition), 
             'message' => 'Stored Successful'], 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\MyPosition  $myPosition
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(MyPosition $myPosition)
     {
+        
         return response([ 
             'statusCode' => 200,
             'timeStamp' => Carbon::now()->toDateTimeString(),
             'status'=>"OK", 
-            'data' => ['user'=> new UserResource($user)], 
+            'data' => ['user'=> new MyPositionResource($myPosition)], 
             'message' => 'Fetched Successful'], 200
         );
     }
@@ -103,10 +89,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\MyPosition  $myPosition
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(MyPosition $myPosition)
     {
         //
     }
@@ -115,17 +101,17 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\MyPosition  $myPosition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, MyPosition $myPosition)
     {
-
+        
         $user->update($request->all());
 
         return response(
             [ 
-                'user' =>  new UserResource($user), 
+                'position' =>  new MyPositionResource($myPosition), 
                 'statusCode' => 200,
                 'timeStamp' => Carbon::now()->toDateTimeString(),
                 'status'=>"OK", 
@@ -139,20 +125,11 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\MyPosition  $myPosition
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(MyPosition $myPosition)
     {
-        $user->delete();
-
-        return response([ 
-            'statusCode' => 200,
-            'timeStamp' => Carbon::now()->toDateTimeString(),
-            'status'=>"OK", 
-            'data' => [], 
-            'message' => 'User deleted Successful'], 200
-        );
+        //
     }
 }
-
