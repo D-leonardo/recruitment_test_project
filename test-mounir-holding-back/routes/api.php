@@ -25,6 +25,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // User Registration Route
 Route::post('/register', [AuthController::class,'register']);
 
+// User Login Route
+Route::post('/login', [AuthController::class,'login']);
+
+// User Logout Route
+Route::post('/logout',[AuthController::class,'logout'])->middleware('auth:api');
 
 // Users resource Route
-Route::apiResource('/users', UserController::class);//->middleware(['auth:api']); // 'scopes:view-dashboard'
+Route::apiResource('/users', UserController::class)->middleware(['auth:api']); // 'scopes:view-dashboard'
