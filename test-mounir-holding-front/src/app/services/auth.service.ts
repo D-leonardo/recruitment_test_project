@@ -4,7 +4,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { BehaviorSubject, map, Observable } from 'rxjs';
 import { LoginRequestPayload } from '../auth/login/login-request.payload';
 import { LoginResponse } from '../auth/login/login-response.payload';
-import { SignUpRequestPayload } from '../auth/sign-up/signup-request.payload';
+import { SignUpRequestPayload } from '../auth/sign-up/sign-up-request.payload';
 import { CustomResponse } from '../interfaces/custom-response';
 
 
