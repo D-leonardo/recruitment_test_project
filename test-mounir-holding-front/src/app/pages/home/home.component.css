@@ -1,0 +1,21 @@
+
+
+.personal2{
+    /* background-repeat: no-repeat; */
+    background-size: auto;
+    background-image: url(../../../assets/images/awesom_bg_gmap.jpeg);
+    display: flex;
+    min-height: 100vh !important;
+    min-width: 100vw !important;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+
+#gmap{
+    min-height: 500px !important;
+    min-width: 600px !important;
+}
+agm-map {
+    height: 600px;
+}

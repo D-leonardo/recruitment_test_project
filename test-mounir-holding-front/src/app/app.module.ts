@@ -7,18 +7,24 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgxWebstorageModule } from 'ngx-webstorage';
 import { AuthModule } from './auth/auth.module';
 import { PagesModule } from './pages/pages.module';
+import { CommonComponentModule } from './common-component/common-component.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule,   
     AppRoutingModule,
-    HttpClientModule,
     AuthModule,
     PagesModule,
-    NgxWebstorageModule.forRoot()
+    CommonComponentModule,
+    HttpClientModule,
+
+    ReactiveFormsModule,
+    NgxWebstorageModule.forRoot(),
+ 
 
   ],
   providers: [],

@@ -1,0 +1,12 @@
+
+.personal2{
+    /* background-repeat: no-repeat; */
+    background-size: auto;
+    background-image: url(../../../assets/images/world_gmap.png);
+    display: flex;
+    min-height: 100vh !important;
+    min-width: 100vw !important;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
