@@ -90,7 +90,7 @@ class AuthController extends Controller
     }
 
 
-    public function logout(Request $request){
+    public function logout(){
 
         // Get authenticated user
         $user = Auth::user();
@@ -98,7 +98,7 @@ class AuthController extends Controller
         
         $userToken = $user->tokens();
         
-        dd($user);
+        // dd($user);
 
         $userToken->delete();
 
@@ -106,6 +106,8 @@ class AuthController extends Controller
         
 
     }
+
+
 
 
 

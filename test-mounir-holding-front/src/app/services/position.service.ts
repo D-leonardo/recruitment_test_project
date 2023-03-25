@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { CustomResponse } from '../interfaces/custom-response';
 import { PositionRequest } from '../interfaces/position/position-request-payload';
 import { AuthService } from './auth.service';
@@ -18,6 +18,7 @@ export class PositionService {
     'Authorization': `Bearer ${this.authService.getAccessToken()}`
   })
 
+
   private handleError(error: HttpErrorResponse): Observable<never> {
     console.log(error);
     return throwError(`An Error Occured -  Error Code : ${error.status}`);
@@ -25,6 +26,7 @@ export class PositionService {
 
   private readonly apiUrl =  "http://find_our_location.test";
 
+  // Method to get All Geographical Positions From Laravel Server
   index():Observable<CustomResponse>{
     return this.httpClient
     .get<CustomResponse>(`${this.apiUrl}/api/positions`,{
@@ -32,7 +34,16 @@ export class PositionService {
     }).pipe(tap(console.log), catchError(this.handleError))
   }
   
+
+  // Method to get The Authenticated User Geographical Position from ipapi.co api
+  ipapi(): Observable<any> {
+    return this.httpClient.get(`https://ipapi.co/json`)
+      .pipe(map(data => {
+        return data;
+      }));
+  }
   
+  // Method to Create A Geographical Positions 
   create( createUserPayload : PositionRequest ):Observable<boolean> {
     return this.httpClient.post<CustomResponse>(`${this.apiUrl}/api/positions`,
     createUserPayload,{
@@ -41,6 +52,7 @@ export class PositionService {
   }
 
      
+  // Method to get A given Geographical Positions From Laravel Server
   show(id:number):Observable<CustomResponse> {
     return this.httpClient.get<CustomResponse>(`${this.apiUrl}/api/positions/${id}`,
    {
@@ -49,6 +61,7 @@ export class PositionService {
   }
 
     
+  // Method to get Update A Geographical Positions Into Laravel Server
   update( createUserPayload : PositionRequest , position_number:any):Observable<boolean> {
     return this.httpClient.patch<CustomResponse>(`${this.apiUrl}/api/positions/${position_number}`,
     createUserPayload,{
@@ -56,13 +69,5 @@ export class PositionService {
     }).pipe(tap(console.log), catchError(this.handleError));
   }
 
-  delete(id:number):Observable<CustomResponse>{
-    return this.httpClient
-    .delete<CustomResponse>(
-      `${this.apiUrl}/api/positions/${id}`,{
-        headers: this.headers,
-      }
-    )
-    .pipe(tap(console.log), catchError(this.handleError))
-  }
+  
 }

@@ -21,7 +21,7 @@ export class AppToastService {
     })
 
 
-
+// Toast(Print) Success message
   success(message:String){
     this.Toast.fire({
       icon: 'success',
@@ -31,6 +31,7 @@ export class AppToastService {
 
 
   
+// Toast(Print) Error message
   error(message:String){
     this.Toast.fire({
       icon: 'error',

@@ -1,9 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
-import { throwError } from 'rxjs';
+import { map, throwError } from 'rxjs';
 import { PositionRequest } from 'src/app/interfaces/position/position-request-payload';
 import { PositionResponse } from 'src/app/interfaces/position/position-response-payload';
 import { UserResponse } from 'src/app/interfaces/users/user-response-payload';
@@ -84,6 +85,7 @@ export class HomeComponent implements OnInit {
     private router : Router,
     private toast : AppToastService,
     private authService: AuthService,
+    private httpClient: HttpClient,
     private localStorage: LocalStorageService ) {
     
     // Initiating Form Data
@@ -114,6 +116,7 @@ export class HomeComponent implements OnInit {
   openInfoWindow(marker: MapMarker) {
     if (this.infoWindow != undefined) this.infoWindow.open(marker);
   }
+
 
 
   getUsersPosition(): void {
@@ -153,8 +156,8 @@ export class HomeComponent implements OnInit {
 
   manualSubmit(){
 
-    
-    this.positionRequestPayload.latitude = this.submitForm?.get('latitude')?.value;
+    // Inserting data From Form into Payload
+      this.positionRequestPayload.latitude = this.submitForm?.get('latitude')?.value;
       this.positionRequestPayload.longitude = this.submitForm?.get('longitude')?.value;
       this.positionRequestPayload.available = true;
 
@@ -165,20 +168,78 @@ export class HomeComponent implements OnInit {
 
       this.position_number = app_user.position.id;
 
-    // Update Map Position 
-    this.position.update(this.positionRequestPayload, this.position_number).subscribe((data) => {
+      // Update Map Position 
+      this.position.update(this.positionRequestPayload, this.position_number).subscribe((data) => {
 
-      console.log("ResPonse Lat Long Submit : ",data)
-      // navigate to home Page
-      this.router.navigate(['/']);
+        console.log("ResPonse Lat Long Submit : ",data)
+        // navigate to home Page
+        this.router.navigate(['/']);
 
 
-      // window.location.href ='/'
 
-      // Toast Notification
-      this.toast.success("Data Posted SuccesFully");
+          // Toast Notification
+          this.toast.success("Data Posted SuccesFully");
 
+          // navigate to home Page
+          setTimeout(() => {
+            window.location.href ='/'
+          }, 3000);
+
+        
+      }, (error_message) => {
+        // Toast Error Message
+        this.toast.error(error_message.error.message);
+
+        console.log(error_message);
+
+      });
+  }
+
+  authomaticSubmit(){
+
+    // Calling the ipapi method from position Service
+    this.position.ipapi().subscribe(data=>{
+
+        // Retrieve Data From Api Response into
+        this.positionRequestPayload.latitude = data.latitude;
+        this.positionRequestPayload.longitude = data.longitude;
+        this.positionRequestPayload.city = data.city;
+        this.positionRequestPayload.region = data.region;
+        this.positionRequestPayload.country = data.country_name;
+        this.positionRequestPayload.available = true;
+        
+        const app_user=this.localStorage.retrieve('user')
+
+        this.positionRequestPayload.user_id = app_user.id;
+
+        this.position_number = app_user.position.id;
+
+      // Update Map Position 
+        // console.log("IPIA : ",data)
+        // console.log("Position Number : ",this.position_number)
+        // console.log("Payload Reuqest : ",this.positionRequestPayload)
       
+        this.position.update(this.positionRequestPayload, this.position_number).subscribe((data) => {
+
+          console.log("ResPonse Lat Long Submit : ",data)
+
+          // Toast Notification
+          this.toast.success("Data Posted SuccesFully");
+
+          // navigate to home Page
+          setTimeout(() => {
+            window.location.href ='/'
+          }, 3000);
+
+          
+        }, (error_message) => {
+
+          this.toast.error(error_message.error.text);
+
+          console.log(error_message);
+
+        });
+       
     }, (error_message) => {
 
       this.toast.error(error_message.error.text);
@@ -186,9 +247,9 @@ export class HomeComponent implements OnInit {
       console.log(error_message);
 
     });
-  }
+              
+        
 
-  authomaticSubmit(){
 
   }
 

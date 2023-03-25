@@ -13,13 +13,17 @@ export class HeaderComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router, private localStorage: LocalStorageService) { }
 
   username ?: String;
+
   isLoggedIn ?: boolean;
-  checkbox:boolean = false;
+  // User Variable
   user:any;
+
+  // Log in Status Variable
   loggedIn:boolean = false;
 
   ngOnInit(): void {
 
+    // Initialisint the ogin Status(Returns True or False)
     this.authService.status().subscribe((res)=>{
       console.log("User Logged In State is : ",res);
       this.loggedIn = res;
@@ -36,19 +40,29 @@ export class HeaderComponent implements OnInit {
 
   }
 
+
+// VErify the current Route
+  isActive(instruction: string): boolean {
+    return this.router.isActive(instruction,true);
+  }
+
+
   logout(){
+    // Calling og Out Services
     this.authService.logout().subscribe((res)=>{
 
       console.log(res);
-      // this.localStorage.clear('access_token');
-      // this.localStorage.clear('user');
-      // this.localStorage.clear('email');
-      // this.localStorage.clear('expiresAt');
+      // Clearing Local Storage Token and User Data
+      this.localStorage.clear('access_token');
+      this.localStorage.clear('user');
+      this.localStorage.clear('email');
+      this.localStorage.clear('expiresAt');
 
-      // this.router.navigate(['login'])
-      // .then(() => {
-      //   window.location.reload();
-      // });
+      // Naviget To Login Form
+      this.router.navigate(['login'])
+      .then(() => {
+        window.location.reload();
+      });
 
     }, (err) =>{
       console.log(err)

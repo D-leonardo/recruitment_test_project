@@ -14,21 +14,27 @@ import { UserResponse } from '../interfaces/users/user-response-payload';
 })
 export class AuthService {
 
+  // Defining Api Url
   private readonly apiUrl =  "http://find_our_location.test";
 
+  // Defining Log In Varable
   private isLoggedIn  = new BehaviorSubject<boolean>(false);
 
+  // Injecting Http and Local Storage Service
   constructor(private httpClient: HttpClient, private localStorage: LocalStorageService) { }
 
 
+  // Method to retrieve Access Token
   getAccessToken() {
     return this.localStorage.retrieve('access_token');
   }
 
+  // Method to register a new user
   signup(signUpRequestPayload: SignUpRequestPayload): Observable<any> {
     return this.httpClient.post<CustomResponse>(`${this.apiUrl}/api/register`, signUpRequestPayload);
   }
 
+  // Method to Login a New User
   login(loginRequestPayload: LoginRequestPayload): Observable<boolean> {
     return this.httpClient.post<LoginResponse>(`${this.apiUrl}/api/login`, loginRequestPayload)
       .pipe(map(data => {
@@ -43,6 +49,8 @@ export class AuthService {
         return true;
       }));
   }
+
+
 
   // Toogle Loggedin
   toggleLogin(state: boolean): void {
@@ -85,7 +93,7 @@ export class AuthService {
 
   }
 
-
+// LogOut User Service Method
   logout() {
     
     const token: any = this.localStorage.retrieve('access_token');
@@ -94,17 +102,12 @@ export class AuthService {
       Authorization: `Bearer ${token}`,
     });
 
-    let myHeaders = new HttpHeaders({
-      Authorization: `Bearer ${token}`
-    });
-
-    console.log("My Log Out Headers Passed", myHeaders);
-
-
-    return this.httpClient.post(`${this.apiUrl}/api/logout`, {
+    return this.httpClient.post(`${this.apiUrl}/api/logout`,{}, {
       headers: headers,
     });
   }
+
+
 
 
 
