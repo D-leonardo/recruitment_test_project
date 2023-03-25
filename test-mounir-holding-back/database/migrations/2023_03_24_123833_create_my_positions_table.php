@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('my_positions', function (Blueprint $table) {
             $table->id();
             $table->boolean('available')->default(false);
-            $table->string('longitude')->nullable();
-            $table->string('latitude')->nullable();
+            $table->decimal('longitude')->nullable();
+            $table->decimal('latitude')->nullable();
             $table->string('country')->nullable();
             $table->string('region')->nullable();
             $table->string('city')->nullable();

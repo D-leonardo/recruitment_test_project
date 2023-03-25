@@ -14,14 +14,7 @@ class MyPosition extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'longitude',
-        'latitude',
-        'user_id',
-        'country',
-        'region',
-        'city',
-    ];
+    protected $guarded = [];
 
 
     public function user()

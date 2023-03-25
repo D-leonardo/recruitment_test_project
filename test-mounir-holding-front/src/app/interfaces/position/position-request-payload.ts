@@ -1,11 +1,12 @@
 
 export interface PositionRequest{
 
-    logitude: string,
+    longitude: string,
     latitude: string,
-    available: string,
-    city: string,
-    region: string,
-    country: string,
-    
+    user_id: any,
+    available?: boolean,
+    city?: string,
+    region?: string,
+    country?: string,
+
 }

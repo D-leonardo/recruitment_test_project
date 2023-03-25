@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppToastServiceService } from 'src/app/services/app-toast-service.service';
+import { AppToastService } from 'src/app/services/app-toast.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SignUpRequestPayload } from './sign-up-request.payload';
 
@@ -24,7 +24,7 @@ export class SignUpComponent implements OnInit {
   }
 
 
-  constructor(private authService: AuthService, private toast : AppToastServiceService, private router : Router,
+  constructor(private authService: AuthService, private toast : AppToastService, private router : Router,
     private activatedRoute : ActivatedRoute) { 
     this.signUpRequestPayload = {
       name: '',

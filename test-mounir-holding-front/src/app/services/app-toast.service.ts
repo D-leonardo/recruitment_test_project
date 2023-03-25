@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 @Injectable({
   providedIn: 'root'
 })
-export class AppToastServiceService {
+export class AppToastService {
 
   constructor() { }
 
@@ -58,5 +58,5 @@ export class AppToastServiceService {
       title: message
     })
   }
-  
+
 }

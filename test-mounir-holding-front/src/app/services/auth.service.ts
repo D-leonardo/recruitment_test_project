@@ -6,6 +6,7 @@ import { LoginRequestPayload } from '../auth/login/login-request.payload';
 import { LoginResponse } from '../auth/login/login-response.payload';
 import { SignUpRequestPayload } from '../auth/sign-up/sign-up-request.payload';
 import { CustomResponse } from '../interfaces/custom-response';
+import { UserResponse } from '../interfaces/users/user-response-payload';
 
 
 @Injectable({
@@ -75,23 +76,36 @@ export class AuthService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
+    console.log("Auth User Request Headers Passed", headers);
 
-    return this.httpClient.get(`${this.apiUrl}/api/user`, {
+
+    return this.httpClient.get<UserResponse>(`${this.apiUrl}/api/user`, {
       headers: headers,
     });
 
   }
 
 
-  logout(allDevice: boolean) {
-    const userToken: any = this.localStorage.retrieve('access_token');
+  logout() {
+    
+    const token: any = this.localStorage.retrieve('access_token');
 
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${userToken}`,
+      Authorization: `Bearer ${token}`,
     });
 
-    return this.httpClient.post(`${this.apiUrl}/api/logout`, {headers:headers})
+    let myHeaders = new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
+
+    console.log("My Log Out Headers Passed", myHeaders);
+
+
+    return this.httpClient.post(`${this.apiUrl}/api/logout`, {
+      headers: headers,
+    });
   }
+
 
 
 

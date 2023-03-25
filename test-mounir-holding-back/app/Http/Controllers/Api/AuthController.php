@@ -94,10 +94,14 @@ class AuthController extends Controller
 
         // Get authenticated user
         $user = Auth::user();
-
         // Delete user Token
+        
         $userToken = $user->tokens();
+        
+        dd($user);
+
         $userToken->delete();
+
         return response()->json(['message' => 'Logged Out Successfully !!!'], 200);
         
 

@@ -74,17 +74,18 @@ class MyPositionController extends Controller
      * @param  \App\Models\MyPosition  $myPosition
      * @return \Illuminate\Http\Response
      */
-    public function show(MyPosition $myPosition)
+    public function show(MyPosition $myPosition,$id)
     {
-        
+        $myPosition = MyPosition::find($id);
         return response([ 
             'statusCode' => 200,
             'timeStamp' => Carbon::now()->toDateTimeString(),
             'status'=>"OK", 
-            'data' => ['user'=> new MyPositionResource($myPosition)], 
+            'data' => ['postition'=> new MyPositionResource($myPosition)], 
             'message' => 'Fetched Successful'], 200
         );
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -104,10 +105,12 @@ class MyPositionController extends Controller
      * @param  \App\Models\MyPosition  $myPosition
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MyPosition $myPosition)
+    public function update(Request $request, MyPosition $myPosition,$id)
     {
+        $myPosition = MyPosition::find($id);
         
-        $user->update($request->all());
+        $myPosition->update($request->all());
+        // dd($myPosition);
 
         return response(
             [ 

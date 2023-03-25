@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AppToastServiceService } from 'src/app/services/app-toast-service.service';
+import { AppToastService } from 'src/app/services/app-toast.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoginRequestPayload } from './login-request.payload';
 
@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginRequestPayload: LoginRequestPayload;
   answer:any;
 
-  constructor(private authService: AuthService, private router : Router,private toast : AppToastServiceService,
+  constructor(private authService: AuthService, private router : Router,private toast : AppToastService,
     private activatedRoute : ActivatedRoute) { 
     this.loginRequestPayload = {
       email: '',
@@ -45,13 +45,18 @@ export class LoginComponent implements OnInit {
 
       console.log("DATA LOGIN : ",data)
       this.answer=data
-      // this.router.navigate(['/']);
+      this.router.navigate(['/']);
 
-      window.location.href ='/'
+
+      this.toast.success("User Logged In Succesfully.");
+      
+      setTimeout(() => {
+        window.location.href ='/'
+      }, 3000);
       
     }, (error_message) => {
 
-      this.toast.error(error_message.error.text);
+      this.toast.error(error_message.error.message);
 
       console.log(error_message);
 
