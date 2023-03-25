@@ -94,12 +94,12 @@
         <!-- Setting Marker On GMAP(Marker Designating User Location) -->
           <map-marker
             #marker="mapMarker"
-            *ngFor="let markerPosition of markerPositions"
+            *ngFor="let markerPosition of markerPositions; let i = index"
             [position]="markerPosition"
             [options]="markerOptions"
-            (mapClick)="openInfoWindow(marker)"
+            (mapClick)="openInfoWindow(marker, i)"
           >
-            <map-info-window> {{ markerPosition.username }} </map-info-window>
+            <map-info-window > {{ markerPosition.username }}  </map-info-window>
           </map-marker>
         </google-map>
       </div>

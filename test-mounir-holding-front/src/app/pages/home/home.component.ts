@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { Router } from '@angular/router';
@@ -21,53 +21,13 @@ export class HomeComponent implements OnInit {
 
   positions =[];
 
-  @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
+  @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
+
   submitForm : FormGroup = new FormGroup({});
   positionRequestPayload: PositionRequest;
 
-  markerPositions: any[] = [
-    // {
-    //   lat: 4.43,
-    //   lng: 10.01,
-    //   username: 'Alan'
-    // }, 
-    // {
-    //   lat: 4.67,
-    //   lng: 10.94,
-    //   username: 'Mario'
-    // }, 
-    // {
-    //   lat: 4.57,
-    //   lng: 10.42,
-    //   username: 'Elise'
-    // }, 
-    // {
-    //   lat: 4.70,
-    //   lng: 10.14,
-    //   username: 'Audrey'
-    // }, 
-    // {
-    //   lat: 4.47,
-    //   lng: 10.44,
-    //   username: 'Irene'
-    // }, 
-    // {
-    //   lat: 7.70,
-    //   lng: 14.01,
-    //   username: 'Youssouf'
-    // }, 
-    // {
-    //   lat: 3.41,
-    //   lng: 11.34,
-    //   username: 'Thierno'
-    // }, 
-    // {
-    //   lat: 5.08,
-    //   lng: 13.40,
-    //   username: 'Steves'
-    // }, 
-    // this.positions
-  ];
+  markerPositions: any[] = [];
+  // User Response varable
   user:UserResponse;
   // Goe Map Postion ID variable from backed server
   position_number:any;
@@ -113,10 +73,20 @@ export class HomeComponent implements OnInit {
       if (event.latLng != null) this.markerPositions.push(event.latLng.toJSON());
   }
 
-  openInfoWindow(marker: MapMarker) {
-    if (this.infoWindow != undefined) this.infoWindow.open(marker);
-  }
 
+// Info Window Displaying Current User Position On The Map
+  openInfoWindow(marker: MapMarker, windowIndex: number) {
+    /// stores the current index in forEach
+    let curIdx = 0;
+    this.infoWindowsView.forEach((window: MapInfoWindow) => {
+      if (windowIndex === curIdx) {
+        window.open(marker);
+        curIdx++;
+      } else {
+        curIdx++;
+      }
+    });
+  }
 
 
   getUsersPosition(): void {
