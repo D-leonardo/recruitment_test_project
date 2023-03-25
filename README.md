@@ -1,4 +1,4 @@
-# Mounir Holding
+# Mounir Holding Recruitment Project Test
 Laravel &amp; Angular authentication with user Finding thier Positions On Google Map
 
 # Steps to make it works
@@ -34,7 +34,7 @@ by editing the login() method
 cd test-mounir-holding-back
 php artisan db:seed
 ```
-This command will add a sample user with the following information to your database:
+This command will add a Sample User and Map Position with the following information to your database:
 - Name: **Leonardo**
 - Email: **leonardo@findme.com**
 - Password: **password**
