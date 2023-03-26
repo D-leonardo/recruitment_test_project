@@ -6,7 +6,6 @@ import { Router } from '@angular/router';
 import { LocalStorageService } from 'ngx-webstorage';
 import { map, throwError } from 'rxjs';
 import { PositionRequest } from 'src/app/interfaces/position/position-request-payload';
-import { PositionResponse } from 'src/app/interfaces/position/position-response-payload';
 import { UserResponse } from 'src/app/interfaces/users/user-response-payload';
 import { AppToastService } from 'src/app/services/app-toast.service';
 import { AuthService } from 'src/app/services/auth.service';
@@ -24,6 +23,7 @@ export class HomeComponent implements OnInit {
   @ViewChildren(MapInfoWindow) infoWindowsView: QueryList<MapInfoWindow>;
 
   submitForm : FormGroup = new FormGroup({});
+
   positionRequestPayload: PositionRequest;
 
   markerPositions: any[] = [];
@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
   moveMap(event: google.maps.MapMouseEvent) {
       if (event.latLng != null) this.center = (event.latLng.toJSON());
   }
+
   move(event: google.maps.MapMouseEvent) {
       if (event.latLng != null) this.display = event.latLng.toJSON();
   }
@@ -89,7 +90,7 @@ export class HomeComponent implements OnInit {
   }
 
 
-  getUsersPosition(): void {
+  setMarkers(): void {
 
     this.position.index().subscribe(res => {
       this.positions = res.data.positions.map( obj =>{
@@ -106,7 +107,10 @@ export class HomeComponent implements OnInit {
       this.toast.error(''+error);
       throwError(error);
     })
+
   }
+
+
 
 
   ngOnInit(): void {
@@ -117,10 +121,12 @@ export class HomeComponent implements OnInit {
       latitude: new FormControl('',[Validators.required]),
     });
 
-    this.getUsersPosition();
+    this.setMarkers();
 
     console.log("GMAP MARKER POSITIONS ARE ",this.markerPositions)
 
+    // Reload Markers Every 3 Seconds ( Gives Real Time Position Effect )
+    setInterval(()=>this.setMarkers(), 3000);
 
   }
 
@@ -153,7 +159,7 @@ export class HomeComponent implements OnInit {
           // navigate to home Page
           setTimeout(() => {
             window.location.href ='/'
-          }, 3000);
+          }, 5000);
 
         
       }, (error_message) => {
@@ -184,15 +190,15 @@ export class HomeComponent implements OnInit {
 
         this.position_number = app_user.position.id;
 
-      // Update Map Position 
-        // console.log("IPIA : ",data)
-        // console.log("Position Number : ",this.position_number)
-        // console.log("Payload Reuqest : ",this.positionRequestPayload)
+        
       
         this.position.update(this.positionRequestPayload, this.position_number).subscribe((data) => {
 
           console.log("ResPonse Lat Long Submit : ",data)
 
+          // navigate to home Page
+          this.router.navigate(['/']);
+          
           // Toast Notification
           this.toast.success("Data Posted SuccesFully");
 
