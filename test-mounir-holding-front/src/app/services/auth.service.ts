@@ -23,7 +23,6 @@ export class AuthService {
   // Injecting Http and Local Storage Service
   constructor(private httpClient: HttpClient, private localStorage: LocalStorageService) { }
 
-
   // Method to retrieve Access Token
   getAccessToken() {
     return this.localStorage.retrieve('access_token');
@@ -50,14 +49,7 @@ export class AuthService {
       }));
   }
 
-
-
-  // Toogle Loggedin
-  toggleLogin(state: boolean): void {
-    this.isLoggedIn.next(state);
-  }
-
-  // Status
+  // Method To Check Auth Status
   status() {
     const localData: any = this.localStorage.retrieve('user');
     const toke_exp: any = this.localStorage.retrieve('expiresAt');
@@ -84,7 +76,7 @@ export class AuthService {
     const headers = new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });
-    console.log("Auth User Request Headers Passed", headers);
+    // console.log("Auth User Request Headers Passed", headers);
 
 
     return this.httpClient.get<UserResponse>(`${this.apiUrl}/api/user`, {

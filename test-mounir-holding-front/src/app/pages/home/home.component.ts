@@ -89,7 +89,6 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
   setMarkers(): void {
 
     this.position.index().subscribe(res => {
@@ -100,7 +99,6 @@ export class HomeComponent implements OnInit {
             username : obj.user_name
           }
       })
-
       this.markerPositions=this.positions;
 
     }, error => {
@@ -123,8 +121,6 @@ export class HomeComponent implements OnInit {
 
     this.setMarkers();
 
-    console.log("GMAP MARKER POSITIONS ARE ",this.markerPositions)
-
     // Reload Markers Every 3 Seconds ( Gives Real Time Position Effect )
     setInterval(()=>this.setMarkers(), 3000);
 
@@ -144,36 +140,26 @@ export class HomeComponent implements OnInit {
 
       this.position_number = app_user.position.id;
 
-      // Update Map Position 
+    // Calling PositionService Update Method
       this.position.update(this.positionRequestPayload, this.position_number).subscribe((data) => {
 
         console.log("ResPonse Lat Long Submit : ",data)
         // navigate to home Page
         this.router.navigate(['/']);
 
-
-
           // Toast Notification
           this.toast.success("Data Posted SuccesFully");
-
-          // navigate to home Page
-          setTimeout(() => {
-            window.location.href ='/'
-          }, 5000);
-
         
       }, (error_message) => {
         // Toast Error Message
         this.toast.error(error_message.error.message);
 
-        console.log(error_message);
-
       });
   }
 
-  authomaticSubmit(){
+  automaticSubmit(){
 
-    // Calling the ipapi method from position Service
+    // Calling PositionService ipapi method
     this.position.ipapi().subscribe(data=>{
 
         // Retrieve Data From Api Response into
@@ -192,6 +178,7 @@ export class HomeComponent implements OnInit {
 
         
       
+        // Calling PositionService Update Method
         this.position.update(this.positionRequestPayload, this.position_number).subscribe((data) => {
 
           console.log("ResPonse Lat Long Submit : ",data)
@@ -201,26 +188,16 @@ export class HomeComponent implements OnInit {
           
           // Toast Notification
           this.toast.success("Data Posted SuccesFully");
-
-          // navigate to home Page
-          setTimeout(() => {
-            window.location.href ='/'
-          }, 3000);
-
           
         }, (error_message) => {
 
           this.toast.error(error_message.error.text);
-
-          console.log(error_message);
 
         });
        
     }, (error_message) => {
 
       this.toast.error(error_message.error.text);
-
-      console.log(error_message);
 
     });
               

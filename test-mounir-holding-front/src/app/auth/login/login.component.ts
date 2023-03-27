@@ -13,11 +13,13 @@ import { LoginRequestPayload } from './login-request.payload';
 export class LoginComponent implements OnInit {
 
   loginForm : FormGroup = new FormGroup({});
+
   loginRequestPayload: LoginRequestPayload;
-  answer:any;
 
   constructor(private authService: AuthService, private router : Router,private toast : AppToastService,
     private activatedRoute : ActivatedRoute) { 
+
+    // Initialising The Login Form Payload
     this.loginRequestPayload = {
       email: '',
       password: '',
@@ -26,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
 
-
+    // Validating Login Form
     this.loginForm = new FormGroup({
       email : new FormControl('',[Validators.required,Validators.email]),
       password: new FormControl('',[Validators.required]),
@@ -41,18 +43,16 @@ export class LoginComponent implements OnInit {
 
     console.log('Request Payload Data : ',this.loginRequestPayload);
 
+    // Calling AuthService Login Method
     this.authService.login(this.loginRequestPayload).subscribe((data) => {
 
-      console.log("DATA LOGIN : ",data)
-      this.answer=data
       this.router.navigate(['/']);
-
 
       this.toast.success("User Logged In Succesfully.");
       
       setTimeout(() => {
         window.location.href ='/'
-      }, 3000);
+      }, 2000);
       
     }, (error_message) => {
 

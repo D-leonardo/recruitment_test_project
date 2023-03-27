@@ -12,11 +12,8 @@ export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService, private router: Router, private localStorage: LocalStorageService) { }
 
-  username ?: String;
-
+  // Log In Status Varable
   isLoggedIn ?: boolean;
-  // User Variable
-  user:any;
 
   // Log in Status Variable
   loggedIn:boolean = false;
@@ -29,15 +26,6 @@ export class HeaderComponent implements OnInit {
       this.loggedIn = res;
     })
 
-    this.authService.user().subscribe((res)=>{
-      this.user = res;
-      // console.log("User  is : ",res);
-
-      this.username=this.user.name;
-    }, (err) =>{
-      console.log(err);
-    })
-
   }
 
 
@@ -48,7 +36,7 @@ export class HeaderComponent implements OnInit {
 
 
   logout(){
-    // Calling og Out Services
+    // Calling AuthService LogOut Method
     this.authService.logout().subscribe((res)=>{
 
       console.log(res);
@@ -58,7 +46,7 @@ export class HeaderComponent implements OnInit {
       this.localStorage.clear('email');
       this.localStorage.clear('expiresAt');
 
-      // Naviget To Login Form
+      // Naviget To Login 
       this.router.navigate(['login'])
       .then(() => {
         window.location.reload();

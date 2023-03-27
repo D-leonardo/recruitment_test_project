@@ -39,25 +39,5 @@ export class AppToastService {
     })
   }
   
-  warning(message:String){
-    this.Toast.fire({
-      icon: 'warning',
-      title: message
-    })
-  }
-  
-  info(message:String){
-    this.Toast.fire({
-      icon: 'info',
-      title: message
-    })
-  }
-  
-  question(message:String){
-    this.Toast.fire({
-      icon: 'question',
-      title: message
-    })
-  }
 
 }

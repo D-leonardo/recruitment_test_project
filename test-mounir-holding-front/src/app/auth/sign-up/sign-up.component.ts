@@ -26,6 +26,8 @@ export class SignUpComponent implements OnInit {
 
   constructor(private authService: AuthService, private toast : AppToastService, private router : Router,
     private activatedRoute : ActivatedRoute) { 
+
+    // Initialising The SignUp Form
     this.signUpRequestPayload = {
       name: '',
       email: '',
@@ -36,6 +38,7 @@ export class SignUpComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // Validating SignUp Form
     this.signUpForm = new FormGroup({
       username: new FormControl('',Validators.required),
       phone: new FormControl(null),
@@ -55,6 +58,7 @@ export class SignUpComponent implements OnInit {
     this.signUpRequestPayload.password_confirmation = this.signUpForm?.get('password')?.value;
     console.log('Request Payload Data : ',this.signUpRequestPayload);
 
+    // Calling AuthService SignUp Method
     this.authService.signup(this.signUpRequestPayload).subscribe((data) => {
 
       this.router.navigate(['/login']);

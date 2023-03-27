@@ -43,23 +43,6 @@ export class PositionService {
       }));
   }
   
-  // Method to Create A Geographical Positions 
-  create( createUserPayload : PositionRequest ):Observable<boolean> {
-    return this.httpClient.post<CustomResponse>(`${this.apiUrl}/api/positions`,
-    createUserPayload,{
-      headers: this.headers,
-    }).pipe(tap(console.log), catchError(this.handleError));
-  }
-
-     
-  // Method to get A given Geographical Positions From Laravel Server
-  show(id:number):Observable<CustomResponse> {
-    return this.httpClient.get<CustomResponse>(`${this.apiUrl}/api/positions/${id}`,
-   {
-      headers: this.headers,
-    }).pipe(tap(console.log), catchError(this.handleError));
-  }
-
     
   // Method to get Update A Geographical Positions Into Laravel Server
   update( createUserPayload : PositionRequest , position_number:any):Observable<boolean> {
